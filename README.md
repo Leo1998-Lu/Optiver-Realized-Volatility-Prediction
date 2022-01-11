@@ -24,6 +24,11 @@ Attentive Interpretable Tabular Learning（TabNet）由 Google Research 于 2019
 - Feature transformer是一个多层网络（包括FC、BN和GRU），其中一些层将在每个步骤中共享，一些层独立处理。独立层和共享层的数量也是重要的超参数。
 - 当特征经过预处理和转换后会传递到attentive transformer和feature masking中。 Attentive Transformer包括FC、BN和Sparsemax归一化，该模块会使用历史的尺度信息并在每次迭代中计算已经使用的特征数量，以此来专注于重要特征。 
 
+- **上分Trick**
+- 剔除基于time_id进行agg函数特征构造可能导致的验证泄漏。
+- 引入了分层抽样 GroupKFold。限制望验证集中仅出现新的时间 id（因为在预测时会出现这种情况），同时从每只股票中充分学习。
+- 多模型融合(LightGBM + TabNet + MLP)
+
 通过市场历史3个月共126支不同行业股票的32.8k条短期波动率与相应财务数据来训练模型，***用未来3个月的实际市场结果来验证模型***（比赛在2021年9月27日截止提交，模型验证2021年9月28日-2022年1月11日的未来数据）
 
 ![image](https://user-images.githubusercontent.com/57436423/148865740-94c11193-ead3-478b-96c6-7a742776b9ae.png)
